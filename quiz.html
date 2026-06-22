@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Is Your Body Trying to Tell You? — The Root Code</title>
+<meta name="description" content="A free 2-minute quiz. 9 questions, an honest read of the signals your body has been sending — and what to do next.">
+<!--
+  ════════════════════════════════════════════════════════════
+  UPUTSTVO ZA JELENU (ovaj komentar posetioci ne vide):
+
+  1. EMAIL: registruj se na https://formspree.io (besplatno do 50
+     prijava mesečno), napravi formu i dobiješ URL oblika
+     https://formspree.io/f/XXXXXXX — upiši ga dole u FORM_ENDPOINT.
+     Dok je prazan, kviz preskače email korak i radi normalno.
+  2. CTA LINK: u CTA_URL upiši link na landing stranicu ili direktno
+     na kupovinu protokola.
+  3. Okači na Vercel kao quiz.html (ili index.html u /quiz folderu) —
+     link ide u Instagram bio.
+  ════════════════════════════════════════════════════════════
+-->
+<style>
+  :root{
+    --green:#2E6B4F; --green-dark:#235540; --green-light:#E4F0E9;
+    --ink:#1F2A24; --muted:#7A8A80; --cream:#FBF9F4; --line:#E3E8E4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Georgia,'Times New Roman',serif;background:var(--cream);color:var(--ink);
+       min-height:100vh;display:flex;flex-direction:column;align-items:center}
+  .sans{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+  header{padding:34px 20px 0;text-align:center}
+  .brand{font-family:sans-serif;font-weight:600;letter-spacing:.35em;font-size:13px;color:var(--green)}
+  .brand-line{width:54px;height:3px;background:var(--green);margin:14px auto 0}
+  main{width:100%;max-width:560px;padding:24px 22px 60px;flex:1}
+  .bar{height:5px;background:var(--line);border-radius:99px;margin:26px 0 34px;overflow:hidden}
+  .bar i{display:block;height:100%;width:0;background:var(--green);border-radius:99px;transition:width .35s ease}
+  .card{animation:rise .4s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+  h1{font-size:30px;line-height:1.25;letter-spacing:-.01em;margin-bottom:14px}
+  h2{font-size:24px;line-height:1.3;margin-bottom:8px}
+  .lead{color:var(--muted);font-size:17px;line-height:1.55;margin-bottom:26px}
+  .qnum{font-family:sans-serif;font-size:13px;font-weight:600;letter-spacing:.12em;color:var(--green);
+        text-transform:uppercase;margin-bottom:10px}
+  .opts{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+  button.opt{font-family:Georgia,serif;font-size:17px;text-align:left;padding:16px 20px;border-radius:12px;
+        border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:all .15s}
+  button.opt:hover{border-color:var(--green);background:var(--green-light)}
+  .btn{display:inline-block;font-family:sans-serif;font-weight:600;font-size:17px;color:#fff;
+       background:var(--green);border:none;border-radius:10px;padding:16px 30px;cursor:pointer;
+       text-decoration:none;transition:background .2s}
+  .btn:hover{background:var(--green-dark)}
+  .btn.ghost{background:transparent;color:var(--muted);font-weight:400;font-size:14px;padding:10px}
+  input[type=email]{width:100%;font-family:sans-serif;font-size:16px;padding:15px 16px;border-radius:10px;
+       border:1.5px solid var(--line);background:#fff;margin:14px 0}
+  input[type=email]:focus{outline:none;border-color:var(--green)}
+  .result-label{font-family:sans-serif;font-size:13px;font-weight:600;letter-spacing:.12em;
+       text-transform:uppercase;color:var(--green);margin-bottom:8px}
+  .result-box{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:26px;margin:18px 0}
+  .result-box p{font-size:16.5px;line-height:1.6;color:var(--ink);margin-bottom:12px}
+  .result-box p:last-child{margin-bottom:0}
+  .hint{font-size:13.5px;color:var(--muted);line-height:1.5;margin-top:14px}
+  .steps-box{margin:6px 0 8px}
+  .step{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+  .step .dot{flex:none;width:11px;height:11px;border-radius:50%;background:var(--green);margin-top:9px}
+  .step p{font-size:16px;line-height:1.55;color:var(--ink);margin:0}
+  .steps-note{font-size:13px;color:var(--muted);font-style:italic;line-height:1.5;margin-top:6px}
+  footer{font-family:sans-serif;font-size:11.5px;color:var(--muted);max-width:560px;
+       padding:0 22px 36px;text-align:center;line-height:1.55}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">THE ROOT CODE</div>
+  <div class="brand-line"></div>
+</header>
+
+<main>
+  <div class="bar" id="bar" hidden><i id="barfill"></i></div>
+  <div id="app"></div>
+</main>
+
+<footer>
+  This quiz offers educational wellness insights only — it does not diagnose, treat, or replace medical advice.
+  Always consult your healthcare provider about health concerns.
+</footer>
+
+<script>
+/* ───── PODESI OVO ───── */
+const FORM_ENDPOINT = "";                 // npr. "https://formspree.io/f/XXXXXXX"
+const CTA_URL = "/#pricing";  // vodi na landing stranicu, sekcija sa cenama
+/* ────────────────────── */
+
+const QUESTIONS = [
+  // gut
+  {c:"gut", t:"After meals, I feel bloated, heavy, or uncomfortable."},
+  {c:"gut", t:"Foods I used to enjoy now seem to disagree with me."},
+  {c:"gut", t:"My digestion is unpredictable — good days, bad days, no clear pattern."},
+  // energy
+  {c:"energy", t:"My energy crashes in the afternoon, almost on schedule."},
+  {c:"energy", t:"I rely on coffee or sugar to get through the day."},
+  {c:"energy", t:"Even small stress seems to drain me more than it used to."},
+  // sleep
+  {c:"sleep", t:"I wake up tired, even after a full night in bed."},
+  {c:"sleep", t:"I wake up during the night and struggle to fall back asleep."},
+  {c:"sleep", t:"My mind switches on the moment my head hits the pillow."},
+];
+
+const OPTIONS = [["Often", 2], ["Sometimes", 1], ["Rarely", 0]];
+
+const RESULTS = {
+  gut: {
+    name: "Digestive load",
+    body: [
+      "Your answers point first to your digestive system — the place where food becomes you. When digestion struggles, the signals rarely stay in the stomach: energy, skin, and mood often follow.",
+      "The encouraging part: digestion responds faster than almost any other system once you find what *your* gut is reacting to — not a generic list from the internet."
+    ],
+    steps: [
+      "Eat slower, away from screens — digestion begins in a calm state, before the first bite.",
+      "Notice the timing, not just the food — when and how you eat often matters as much as what.",
+      "Keep a simple 3-day food-and-symptom note — patterns tend to show up fast on paper."
+    ]
+  },
+  energy: {
+    name: "Energy & stress load",
+    body: [
+      "Your answers point first to your energy economy — the balance between what your day demands and what your body can fund. Afternoon crashes and caffeine reliance are usually signs of borrowing, not laziness.",
+      "The encouraging part: energy patterns have findable causes — blood sugar stability, stress load, and the micronutrients your energy chemistry runs on."
+    ],
+    steps: [
+      "Anchor your morning — a breakfast with protein and fat steadies energy across the whole day.",
+      "Treat the afternoon dip as a signal, not a failure — notice what came before it.",
+      "Protect a real wind-down — tomorrow's energy is largely built the night before."
+    ]
+  },
+  sleep: {
+    name: "Sleep & recovery",
+    body: [
+      "Your answers point first to recovery — not how long you sleep, but how deeply your body rests. A night can be full of hours and still empty of repair.",
+      "The encouraging part: waking rested is a skill your body can relearn, once you find what's interrupting the chemistry of rest."
+    ],
+    steps: [
+      "Give your nervous system a buffer — 20 screen-free minutes before bed change a lot.",
+      "Watch late meals and late caffeine — both quietly interrupt deep rest.",
+      "Get daylight early — morning light sets the clock that runs your night."
+    ]
+  }
+};
+
+let step = -1;
+const scores = {gut: 0, energy: 0, sleep: 0};
+const app = document.getElementById("app");
+const bar = document.getElementById("bar");
+const barfill = document.getElementById("barfill");
+
+function intro() {
+  app.innerHTML = `
+    <div class="card">
+      <h1>What is your body trying to tell you?</h1>
+      <p class="lead">9 questions, 2 minutes. An honest read of the signals you've been living with —
+      and a clear idea of where to look first. No account, no pressure.</p>
+      <button class="btn" onclick="next()">Start the quiz</button>
+    </div>`;
+}
+
+function question() {
+  const q = QUESTIONS[step];
+  bar.hidden = false;
+  barfill.style.width = ((step) / QUESTIONS.length * 100) + "%";
+  app.innerHTML = `
+    <div class="card">
+      <div class="qnum">Question ${step + 1} of ${QUESTIONS.length}</div>
+      <h2>${q.t}</h2>
+      <div class="opts">
+        ${OPTIONS.map(([label, pts]) =>
+          `<button class="opt" onclick="answer('${q.c}', ${pts})">${label}</button>`).join("")}
+      </div>
+    </div>`;
+}
+
+function answer(cat, pts) {
+  scores[cat] += pts;
+  next();
+}
+
+function next() {
+  step++;
+  if (step < QUESTIONS.length) { question(); }
+  else { barfill.style.width = "100%"; FORM_ENDPOINT ? emailGate() : result(); }
+}
+
+function emailGate() {
+  app.innerHTML = `
+    <div class="card">
+      <h2>Your result is ready.</h2>
+      <p class="lead">Where should I send it? You'll also get a short first-steps guide for your pattern —
+      and nothing else unless you ask for it.</p>
+      <form id="ef">
+        <input type="email" id="em" placeholder="your@email.com" required>
+        <button class="btn" type="submit">Send my result</button>
+      </form>
+      <button class="btn ghost" onclick="result()">Skip — just show my result</button>
+    </div>`;
+  document.getElementById("ef").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("em").value;
+    const top = topCategory();
+    try {
+      await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {"Content-Type": "application/json", "Accept": "application/json"},
+        body: JSON.stringify({email, result: RESULTS[top].name,
+          gut: scores.gut, energy: scores.energy, sleep: scores.sleep})
+      });
+    } catch (err) { /* i ako ne prođe, pokaži rezultat */ }
+    result();
+  });
+}
+
+function topCategory() {
+  return Object.keys(scores).reduce((a, b) => scores[b] > scores[a] ? b : a);
+}
+
+function result() {
+  bar.hidden = true;
+  const top = topCategory();
+  const r = RESULTS[top];
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  const close = sorted[1][1] >= sorted[0][1] - 1 && sorted[0][1] > 0;
+  const second = close ? RESULTS[sorted[1][0]].name.toLowerCase() : null;
+  app.innerHTML = `
+    <div class="card">
+      <div class="result-label">Your primary pattern</div>
+      <h1>${r.name}</h1>
+      <div class="result-box">
+        ${r.body.map(p => `<p>${p}</p>`).join("")}
+        ${second ? `<p><em>Your answers also show a strong ${second} thread — in the body these
+          two are usually one conversation, not two problems.</em></p>` : ""}
+      </div>
+      <div class="result-label">A few gentle first steps</div>
+      <div class="steps-box">
+        ${r.steps.map(s => `<div class="step"><span class="dot"></span><p>${s}</p></div>`).join("")}
+        <p class="steps-note">General starting points — not your protocol. Your personalized plan is built from your full answers and my review.</p>
+      </div>
+      <p class="lead">This quiz sees the outline. The full picture comes from my in-depth questionnaire —
+      and a protocol built from <em>your</em> answers, reviewed by me personally.</p>
+      <a class="btn" href="${CTA_URL}">Get my personalized protocol →</a>
+      <p class="hint">15-minute questionnaire · protocol within 48 hours · reviewed by a practitioner</p>
+    </div>`;
+}
+
+intro();
+</script>
+</body>
+</html>

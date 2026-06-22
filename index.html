@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Root Code — Your Personalized Wellness Protocol</title>
+<meta name="description" content="Answer a 15-minute health questionnaire and receive a personalized wellness protocol — supplements, nutrition, and herbal support — reviewed by a practitioner. Delivered within 48 hours.">
+<style>
+  :root{
+    --green:#2E6B4F; --green-dark:#235540; --green-light:#EAF3EE;
+    --ink:#1F2A24; --muted:#5C6B62; --bg:#FDFCF9; --card:#FFFFFF; --line:#E3E8E4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Georgia,'Times New Roman',serif;color:var(--ink);background:var(--bg);line-height:1.65}
+  h1,h2,h3,.btn,nav,.label{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+  section{padding:72px 0}
+  h2{font-size:clamp(26px,4vw,36px);line-height:1.2;margin-bottom:16px;letter-spacing:-.02em}
+  .lead{font-size:18px;color:var(--muted);max-width:640px}
+  .btn{display:inline-block;background:var(--green);color:#fff;text-decoration:none;padding:16px 32px;border-radius:8px;font-weight:600;font-size:17px;transition:background .2s}
+  .btn:hover{background:var(--green-dark)}
+  .btn.secondary{background:transparent;color:var(--green);border:2px solid var(--green)}
+  .micro{font-size:13px;color:var(--muted);margin-top:10px}
+  .label{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:12px}
+
+  /* nav */
+  nav{position:sticky;top:0;background:rgba(253,252,249,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:10}
+  nav .wrap{display:flex;justify-content:space-between;align-items:center;height:64px}
+  .logo{font-weight:800;font-size:19px;color:var(--green);text-decoration:none}
+  nav a.cta{font-size:14px;padding:10px 20px}
+
+  /* hero */
+  .hero{padding:96px 0 80px;text-align:center;background:linear-gradient(180deg,var(--green-light) 0%,var(--bg) 100%)}
+  .hero h1{font-size:clamp(34px,5.5vw,56px);line-height:1.12;letter-spacing:-.025em;max-width:780px;margin:0 auto 20px}
+  .hero h1 em{color:var(--green);font-style:normal}
+  .hero .lead{margin:0 auto 32px}
+
+  /* cards / grids */
+  .grid{display:grid;gap:24px;margin-top:40px}
+  .grid.c3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:28px}
+  .card h3{font-size:19px;margin-bottom:10px}
+  .card p{font-size:15.5px;color:var(--muted)}
+  .step-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;font-family:sans-serif;margin-bottom:14px}
+
+  /* problem */
+  .problem{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .problem .punch{font-size:20px;font-weight:600;margin-top:24px;font-family:inherit}
+
+  /* inside list */
+  ul.inside{list-style:none;margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  ul.inside li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-size:15.5px}
+  ul.inside li b{display:block;font-family:sans-serif;font-size:15px;margin-bottom:2px}
+  .focus{margin-top:24px;font-size:15px;color:var(--muted)}
+
+  /* about */
+  .about{background:var(--green);color:#fff}
+  .about h2{color:#fff}
+  .about blockquote{font-size:19px;font-style:italic;max-width:680px;margin-top:18px;opacity:.95}
+  .about .who{margin-top:18px;font-family:sans-serif;font-size:14px;opacity:.85}
+
+  /* pricing */
+  .price-card{position:relative;display:flex;flex-direction:column}
+  .price-card .price{font-size:42px;font-weight:800;font-family:sans-serif;margin:6px 0 18px}
+  .price-card ul{list-style:none;flex:1;margin-bottom:24px}
+  .price-card ul li{padding:7px 0 7px 26px;position:relative;font-size:15px;color:var(--muted)}
+  .price-card ul li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
+  .price-card.popular{border:2px solid var(--green);box-shadow:0 8px 30px rgba(46,107,79,.12)}
+  .badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-family:sans-serif;font-size:12px;font-weight:700;padding:4px 14px;border-radius:99px;white-space:nowrap}
+  .secure{text-align:center;margin-top:28px;font-size:14px;color:var(--muted)}
+
+  /* faq */
+  details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 22px;margin-bottom:12px}
+  details summary{font-family:sans-serif;font-weight:600;font-size:16px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+  details summary::after{content:"+";font-size:22px;color:var(--green)}
+  details[open] summary::after{content:"–"}
+  details p{margin-top:12px;font-size:15.5px;color:var(--muted)}
+
+  /* final */
+  .final{text-align:center;background:var(--green-light)}
+  .final .lead{margin:0 auto 28px}
+
+  footer{padding:48px 0;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+  footer .legal{max-width:820px;margin-bottom:20px}
+  footer .links a{color:var(--muted);margin-right:18px}
+
+  @media(max-width:640px){section{padding:52px 0}.hero{padding:64px 0 56px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#">The Root Code</a>
+    <a class="btn cta" href="#pricing">Get My Protocol</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Your symptoms are real.<br>Your protocol should be <em>personal</em>.</h1>
+    <p class="lead">Answer a 15-minute health questionnaire and receive a personalized wellness protocol — supplements, nutrition, and herbal support — reviewed and refined for you by a practitioner. Delivered within 48 hours.</p>
+    <a class="btn" href="#pricing">Get My Protocol →</a>
+    <p class="micro">No account needed · Reviewed by a human, not just an algorithm</p>
+  </div>
+</header>
+
+<section class="problem">
+  <div class="wrap">
+    <span class="label">Sound familiar?</span>
+    <h2>You've done everything right. So why do you still feel off?</h2>
+    <p class="lead">The bloating after meals. The 3pm energy crash. Waking up tired no matter how early you go to bed. Reactions to foods that never used to bother you.</p>
+    <p class="lead" style="margin-top:14px">Your lab results come back &ldquo;normal.&rdquo; You've tried random supplements that promised everything and changed nothing. And every search online gives you generic advice written for everyone — which means it works for no one.</p>
+    <p class="punch">The missing piece isn't more information. It's a plan built around <em>your</em> answers.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="label">How it works</span>
+    <h2>From questionnaire to your personal protocol in 48 hours</h2>
+    <div class="grid c3">
+      <div class="card">
+        <div class="step-num">1</div>
+        <h3>Tell us about your body (15 min)</h3>
+        <p>Complete an in-depth health questionnaire — symptoms, history, digestion, energy, sleep, stress, and every medication and supplement you currently take. No account, no app. One link, any device.</p>
+      </div>
+      <div class="card">
+        <div class="step-num">2</div>
+        <h3>A root cause practitioner reviews your case</h3>
+        <p>Our system maps your answers to the protocol areas your body needs most. Then a real practitioner personally reviews every recommendation — adjusting supplements, doses, and food choices around your specific situation.</p>
+      </div>
+      <div class="card">
+        <div class="step-num">3</div>
+        <h3>Receive your Root Code protocol</h3>
+        <p>Within 48 hours you get a private link to your complete protocol: phased plan, supplements with doses and timing, foods to include and avoid, herbal support, and progress markers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="problem">
+  <div class="wrap">
+    <span class="label">What's inside</span>
+    <h2>Not a PDF template. A protocol built from your answers.</h2>
+    <ul class="inside">
+      <li><b>Phased plan</b> What to start now, what comes later — so your body isn't overwhelmed on day one</li>
+      <li><b>Supplement plan</b> Exact doses, timing, and the reason behind every single item</li>
+      <li><b>Nutrition guidance</b> What to include and what to avoid, matched to your answers</li>
+      <li><b>Herbal support</b> Traditional botanicals selected for your situation</li>
+      <li><b>Progress markers</b> What to track, so you know it's working</li>
+      <li><b>Practitioner notes</b> Personal observations on your case, not boilerplate</li>
+    </ul>
+    <p class="focus"><b>Protocol focus areas include:</b> digestive balance and gut comfort · daily energy and stress resilience · metabolic and thyroid support · hormonal balance · food sensitivities and histamine load · focus and cognitive support</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="label">Why this is different</span>
+    <h2>An algorithm finds the pattern. A human makes it right for you.</h2>
+    <p class="lead">Most online quizzes sell you whatever's in stock. Most practitioners build every plan by hand — which is why their waitlists are months long.</p>
+    <p class="lead" style="margin-top:14px">The Root Code combines both: a structured system finds the pattern in your answers, and a practitioner personally reviews, adjusts, and approves every protocol before it reaches you — cross-checking everything against the medications and supplements you listed.</p>
+    <p class="lead" style="margin-top:14px"><b>You get the depth of a private consultation, at a fraction of the price, without the waitlist.</b></p>
+  </div>
+</section>
+
+<section class="about">
+  <div class="wrap">
+    <span class="label" style="color:#fff;opacity:.8">About</span>
+    <h2>Reviewed by a practitioner who reads every single answer</h2>
+    <blockquote>&ldquo;I spent 30 years studying why people feel unwell while their labs say &lsquo;normal&rsquo; — and over 10 years working with clients to find the answers. Every protocol that leaves The Root Code is read, adjusted, and approved by me personally. Not because it's good marketing — because it's the only way I'd accept it for my own family.&rdquo;</blockquote>
+    <p class="who">— Jelena [prezime], Holistic Root Cause Practitioner · Founder, Iris Bloom Holistic Center <!-- TODO: prezime + fotografija --></p>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <span class="label">Pricing</span>
+    <h2>Start with the protocol your body is asking for</h2>
+    <p class="lead">One-time payment. No subscription. No account required. Every protocol is personalized and reviewed by a practitioner — and you can add ongoing support any time.</p>
+    <div class="grid c3">
+      <div class="card price-card popular">
+        <span class="badge">Available now</span>
+        <h3>Gut Repair Protocol</h3>
+        <div class="price">$97</div>
+        <ul>
+          <li>15-minute in-depth questionnaire</li>
+          <li>Personalized gut-focused protocol, reviewed by a practitioner</li>
+          <li>Supplements, nutrition &amp; herbal support — with doses and timing</li>
+          <li>Progress markers</li>
+          <li>Delivered within 48 hours</li>
+        </ul>
+        <a class="btn" href="https://rootcode.gumroad.com/l/therootcode-gut">Start My Gut Protocol →</a>
+      </div>
+      <div class="card price-card">
+        <h3>Energy &amp; Sleep Protocols</h3>
+        <div class="price">$97</div>
+        <ul>
+          <li>Same depth, focused on afternoon energy crashes and stress load</li>
+          <li>Or on waking tired, restless nights &amp; recovery</li>
+          <li>Personalized and practitioner-reviewed</li>
+        </ul>
+        <a class="btn secondary" href="mailto:therootcode3@gmail.com?subject=Notify%20me%20%E2%80%94%20Energy%20%26%20Sleep%20protocols">Notify Me at Launch</a>
+      </div>
+      <div class="card price-card">
+        <h3>Add Ongoing Support</h3>
+        <div class="price">from $199</div>
+        <ul>
+          <li>Everything in a protocol</li>
+          <li>30-day check-in &amp; a personal protocol adjustment</li>
+          <li>Or 3 months of guided revisions (Transformation)</li>
+        </ul>
+        <a class="btn secondary" href="mailto:therootcode3@gmail.com?subject=Ongoing%20support%20packages">Ask About Support</a>
+      </div>
+    </div>
+    <p class="secure">🔒 Secure checkout via Gumroad — cards, PayPal, Apple Pay &nbsp;·&nbsp; Questions first? <a href="mailto:therootcode3@gmail.com">therootcode3@gmail.com</a></p>
+  </div>
+</section>
+
+<!-- TESTIMONIALS: otkomentarisati kad budu spremni
+<section class="problem">
+  <div class="wrap">
+    <span class="label">Results</span>
+    <h2>Results from real questionnaires</h2>
+    <div class="grid c3">
+      <div class="card"><p>&ldquo;[testimonijal]&rdquo;</p><p style="margin-top:10px"><b>— A.M., United Kingdom</b></p></div>
+    </div>
+  </div>
+</section>
+-->
+
+<section class="problem">
+  <div class="wrap">
+    <span class="label">FAQ</span>
+    <h2>Questions, answered honestly</h2>
+    <div style="margin-top:32px">
+      <details><summary>Is this medical advice?</summary><p>No. The Root Code provides wellness and nutritional guidance and is not a substitute for medical care. We recommend consulting your doctor before starting any new supplement, and your protocol is designed to be shared with your healthcare provider.</p></details>
+      <details><summary>I take prescription medications. Can I still do this?</summary><p>Yes — and this is exactly why a practitioner reviews every protocol. The questionnaire asks for all medications and supplements you currently take, and your protocol is adjusted around them. For complex situations, we may recommend reviewing the protocol with your doctor first.</p></details>
+      <details><summary>How is this different from a free online quiz?</summary><p>Free quizzes exist to sell you products. Your Root Code protocol is built from an in-depth questionnaire and personally reviewed by a practitioner — and we don't sell supplements, so every recommendation is there because you need it, not because it's in stock.</p></details>
+      <details><summary>How long until I see changes?</summary><p>Everyone's different. Protocols are phased over weeks to months, and include progress markers so you can track your own response. The Check-In and Transformation packages exist precisely to adjust course based on your results.</p></details>
+      <details><summary>What if I'm pregnant, nursing, or have a serious diagnosis?</summary><p>The questionnaire screens for this. In some cases we'll recommend working directly with your doctor instead of starting a protocol — and if we can't serve you responsibly, you'll receive a full refund.</p></details>
+      <details><summary>Can I buy this for my child?</summary><p>Not at this time. Protocols are currently available for adults (18+).</p></details>
+      <details><summary>What's your refund policy?</summary><p>If we haven't started reviewing your questionnaire yet, you get a full refund, no questions asked. If your situation requires medical care rather than wellness support, we'll refund you and tell you so honestly.</p></details>
+      <details><summary>How do I receive the protocol?</summary><p>By email, as a private link. It opens on any device — no account, no app, no printing required (though it prints beautifully if you like paper).</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>Your body has been sending signals.<br>Let's finally read them.</h2>
+    <p class="lead">15 minutes of your honest answers. 48 hours later, a plan that's actually yours.</p>
+    <a class="btn" href="#pricing">Get My Protocol →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="legal">The Root Code provides educational wellness guidance and does not diagnose, treat, cure, or prevent any disease. Statements on this site have not been evaluated by the FDA or any medical authority. Always consult a qualified healthcare provider before beginning any supplement or nutrition program, especially if you are pregnant, nursing, taking medication, or managing a health condition.</p>
+    <p class="links">
+      <a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Refund Policy</a><a href="mailto:therootcode3@gmail.com">Contact</a>
+    </p>
+    <p style="margin-top:14px">© 2026 The Root Code. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
