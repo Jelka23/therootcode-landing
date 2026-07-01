@@ -58,6 +58,9 @@
   .about h2{color:#fff}
   .about blockquote{font-size:19px;font-style:italic;max-width:680px;margin-top:18px;opacity:.95}
   .about .who{margin-top:18px;font-family:sans-serif;font-size:14px;opacity:.85}
+  .about-grid{display:flex;gap:40px;align-items:center}
+  .about-photo{width:210px;height:270px;object-fit:cover;border-radius:16px;flex:none;box-shadow:0 12px 32px rgba(0,0,0,.25)}
+  @media(max-width:640px){.about-grid{flex-direction:column;align-items:flex-start}.about-photo{width:160px;height:205px}}
 
   /* pricing */
   .price-card{position:relative;display:flex;flex-direction:column}
@@ -166,11 +169,14 @@
 </section>
 
 <section class="about">
-  <div class="wrap">
+  <div class="wrap about-grid">
+    <img class="about-photo" src="jelena.png" alt="Jelena Matic, Holistic Root Cause Practitioner">
+    <div>
     <span class="label" style="color:#fff;opacity:.8">About</span>
     <h2>Reviewed by a practitioner who reads every single answer</h2>
     <blockquote>&ldquo;I spent 30 years studying why people feel unwell while their labs say &lsquo;normal&rsquo; — and over 10 years working with clients to find the answers. Every protocol that leaves The Root Code is read, adjusted, and approved by me personally. Not because it's good marketing — because it's the only way I'd accept it for my own family.&rdquo;</blockquote>
-    <p class="who">— Jelena Matic, Holistic Root Cause Practitioner · Founder, Iris Bloom Holistic Center <!-- TODO: fotografija --></p>
+    <p class="who">— Jelena Matic, Holistic Root Cause Practitioner · Founder, Iris Bloom Holistic Center</p>
+    </div>
   </div>
 </section>
 
